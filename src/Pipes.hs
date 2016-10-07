@@ -79,6 +79,7 @@ import Control.Monad.Zip (MonadZip(..))
 import Pipes.Core
 import Pipes.Internal (Proxy(..))
 import qualified Data.Foldable as F
+import GHC.Magic (oneShot)
 
 #if MIN_VERSION_base(4,8,0)
 import Control.Applicative (Alternative(..))
@@ -198,6 +199,8 @@ for = (//>)
   ; "f >~ (g >~ p)" forall f g p . f >~ (g >~ p) = (f >~ g) >~ p
 
   ; "await >~ p" forall p . await >~ p = p
+  
+  ; "await >>= f" forall f . await >>= f = Request () (oneShot f);
 
   ; "p >~ await" forall p . p >~ await = p
 
@@ -292,7 +295,7 @@ f '>~' 'await' = f
 -}
 await :: Monad m => Consumer' a m a
 await = request ()
-{-# INLINABLE [1] await #-}
+{-# INLINABLE [0] await #-}
 
 {-| @(draw >~ p)@ loops over @p@ replacing each 'await' with @draw@
 

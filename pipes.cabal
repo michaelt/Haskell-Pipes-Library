@@ -50,8 +50,9 @@ Library
         transformers >= 0.2.0.0 && < 0.6,
         exceptions   >= 0.4     && < 0.9,
         mmorph       >= 1.0.0   && < 1.1,
-        mtl          >= 2.2.1   && < 2.3
-
+        mtl          >= 2.2.1   && < 2.3,
+        ghc-prim
+        
     Exposed-Modules:
         Pipes,
         Pipes.Core,
